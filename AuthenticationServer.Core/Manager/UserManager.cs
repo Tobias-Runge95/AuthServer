@@ -1,4 +1,5 @@
 ﻿using AuthenticationServer.Core.Request.User;
+using AuthenticationServer.Database;
 using AuthenticationServer.Database.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

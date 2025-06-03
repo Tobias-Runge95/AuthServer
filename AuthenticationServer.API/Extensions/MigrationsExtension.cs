@@ -1,4 +1,5 @@
-﻿using AuthenticationServer.Database.Models;
+﻿using AuthenticationServer.Database;
+using AuthenticationServer.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.API.Extensions;

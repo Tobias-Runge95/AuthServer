@@ -2,6 +2,7 @@ using AuthenticationServer.API.Extensions;
 using AuthenticationServer.Core;
 using AuthenticationServer.Core.Authentication;
 using AuthenticationServer.Core.Factories;
+using AuthenticationServer.Database;
 using AuthenticationServer.Database.Models;
 using Azure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +38,6 @@ builder.Services.AddIdentityCore<User>()
     .AddUserStore<UserStore<User, IdentityRole<Guid>, ApplicationDbContext, Guid>>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
-builder.Services.AddTransient<ICryptographyClientFactory, CryptographyClientFactory>();
 builder.Services.Register();
 builder.Services.AddControllers();
 var app = builder.Build();

@@ -7,7 +7,7 @@ namespace AuthenticationServer.Core.Factories;
 
 public interface ICryptographyClientFactory
 {
-    CryptographyClient CreateClient(string keyName);
+    CryptographyClient CreateClient();
 }
 
 public class CryptographyClientFactory : ICryptographyClientFactory
@@ -27,9 +27,9 @@ public class CryptographyClientFactory : ICryptographyClientFactory
         _configuration = configuration;
     }
     
-    public CryptographyClient CreateClient(string keyName)
+    public CryptographyClient CreateClient()
     {
-        var key = _keyClient.GetKey(keyName).Value;
+        var key = _keyClient.GetKey(_configuration["KeyVault:KeyName"]).Value;
         return new CryptographyClient(key.Id, _credential);
     }
 }

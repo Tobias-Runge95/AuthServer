@@ -1,4 +1,5 @@
 ﻿using AuthenticationServer.Core.Request.Authentication;
+using AuthenticationServer.Database;
 using AuthenticationServer.Database.Models;
 
 namespace AuthenticationServer.Core.Authentication;

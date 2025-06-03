@@ -1,4 +1,5 @@
 ﻿using AuthenticationServer.Core.Authentication;
+using AuthenticationServer.Core.Factories;
 using AuthenticationServer.Core.KeyVault;
 using AuthenticationServer.Core.Manager;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ public static class Startup
             .AddTransient<UserManager>()
             .AddTransient<IAuthManager, AuthManager>()
             .AddScoped<AuthenticationManager>()
+            .AddTransient<ICryptographyClientFactory, CryptographyClientFactory>()
             .AddTransient<TokenService>();
     }
 }

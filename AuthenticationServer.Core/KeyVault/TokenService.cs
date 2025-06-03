@@ -12,20 +12,19 @@ namespace AuthenticationServer.Core.KeyVault;
 public class TokenService
 {
     private readonly KeyClient _keyClient;
-    private readonly CryptographyClientFactory cryptographyClientFactory;
+    private readonly ICryptographyClientFactory _cryptographyClientFactory;
 
-    public TokenService(KeyClient keyClient, CryptographyClientFactory cryptographyClientFactory)
+    public TokenService(KeyClient keyClient, ICryptographyClientFactory cryptographyClientFactory)
     {
         _keyClient = keyClient;
-        this.cryptographyClientFactory = cryptographyClientFactory;
+        _cryptographyClientFactory = cryptographyClientFactory;
     }
 
-    public async Task<LoginResponse> GenerateTokensAsync(IEnumerable<Claim> claims, string keyName)
+    public async Task<LoginResponse> GenerateTokensAsync(IEnumerable<Claim> claims)
     {
-        // Schlüssel aus Key Vault abrufen
         var keyVaultKey = await _keyClient.GetKeyAsync("RollplayHelper");
         var dummyKey = new RsaSecurityKey(RSA.Create()) { KeyId = keyVaultKey.Value.Id.ToString() };
-        var cryptographyClient = cryptographyClientFactory.CreateClient(keyName);
+        var cryptographyClient = _cryptographyClientFactory.CreateClient();
         var factory = new AzureKeyVaultCryptoProviderFactory(cryptographyClient);
 
         var signingCredentials = new SigningCredentials(dummyKey, SecurityAlgorithms.RsaSha256)
