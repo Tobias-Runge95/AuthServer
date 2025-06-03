@@ -18,6 +18,14 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
     public DbSet<Role> Role { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
     public DbSet<UserClaim> UserClaim { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Scope> Scopes { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<AccessToken> AccessTokens { get; set; }
+    public DbSet<UserClient> UserClients { get; set; }
+    public DbSet<AuthorizationCode> AuthorizationCodes { get; set; }
+    public DbSet<AuthorizationCodeScope> AuthorizationCodeScopes { get; set; }
+    public DbSet<AccessTokenScope> AccessTokenScopes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,65 +36,90 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         builder.Entity<Client>().HasMany<Role>().WithOne(x => x.Client).HasForeignKey(x => x.AppId);
         builder.Entity<UserClient>()
             .HasKey(sc => new { sc.UserId, sc.AppId });
+        
+        builder.Entity<Client>()
+            .HasKey(x => x.Id);
+        
+        builder.Entity<Scope>()
+            .HasKey(x => x.Id);
+        
+        builder.Entity<RefreshToken>()
+            .HasKey(x => x.Id);
+        
+        builder.Entity<AccessToken>()
+            .HasKey(x => x.Id);
 
-        builder.Entity<UserClient>()
+        var userClient = builder.Entity<UserClient>();
+        userClient.HasKey(sc => new { sc.UserId, sc.AppId });
+        userClient
             .HasOne(sc => sc.User)
             .WithMany(s => s.UserClients)
             .HasForeignKey(sc => sc.UserId);
 
-        builder.Entity<UserClient>()
+        userClient
             .HasOne(sc => sc.Client)
             .WithMany(c => c.UserClients)
             .HasForeignKey(sc => sc.AppId);
-        
-        builder.Entity<AuthorizationCode>()
+
+        var authorizationCode = builder.Entity<AuthorizationCode>();
+        authorizationCode.HasKey(x => x.Id);
+        authorizationCode
             .HasOne(c => c.Client)
             .WithMany(c => c.AuthorizationCodes)
             .HasForeignKey(c => c.ClientId);
         
-        builder.Entity<AuthorizationCode>()
+        authorizationCode
             .HasOne(u => u.Subject)
             .WithMany(c => c.AuthorizationCodes)
             .HasForeignKey(c => c.SubjectId);
-        
-        builder.Entity<AuthorizationCodeScope>()
+
+        var AuthorizationCodeScope = builder.Entity<AuthorizationCodeScope>();
+        AuthorizationCodeScope.HasKey(x => new { x.AuthorizationCodeId, x.ScopeId });
+        AuthorizationCodeScope
             .HasOne(ac => ac.AuthorizationCode)
             .WithMany(acs => acs.Scopes)
             .HasForeignKey(ac => ac.AuthorizationCodeId);
         
-        builder.Entity<AuthorizationCodeScope>()
+        AuthorizationCodeScope
             .HasOne(ac => ac.Scope)
             .WithMany(acs => acs.AuthorizationCodeScopes)
             .HasForeignKey(ac => ac.ScopeId);
-        
-        builder.Entity<AccessTokenScope>()
+
+        var accessTokenScope = builder.Entity<AccessTokenScope>();
+        accessTokenScope.HasKey(x => new { x.AccessTokenId, x.ScopeId });
+        accessTokenScope
             .HasOne(ac => ac.AccessToken)
             .WithMany(acs => acs.Scopes)
             .HasForeignKey(ac => ac.AccessTokenId);
         
-        builder.Entity<AccessTokenScope>()
+        accessTokenScope
             .HasOne(ac => ac.Scope)
             .WithMany(ats => ats.AccessTokenScopes)
             .HasForeignKey(ac => ac.ScopeId);
-        
-        builder.Entity<AccessToken>()
+
+        var accessToken = builder.Entity<AccessToken>();
+        accessToken.HasKey(x => x.Id);
+        accessToken
             .HasOne(c => c.Client)
             .WithMany(c => c.AccessTokens)
             .HasForeignKey(c => c.ClientId);
         
-        builder.Entity<AccessToken>()
+        accessToken
             .HasOne(c => c.Subject)
             .WithMany(c => c.AccessTokens)
             .HasForeignKey(c => c.SubjectId);
         
-        builder.Entity<RefreshToken>()
+        var refreshToken = builder.Entity<RefreshToken>();
+        refreshToken.HasKey(x => x.Id);
+        refreshToken
             .HasOne(t => t.Client)
             .WithMany(c => c.RefreshTokens)
             .HasForeignKey(t => t.ClientId);
         
-        builder.Entity<RefreshToken>()
+        refreshToken
             .HasOne(u => u.Subject)
             .WithMany(c => c.RefreshTokens)
             .HasForeignKey(u => u.SubjectId);
+        
     }
 }
