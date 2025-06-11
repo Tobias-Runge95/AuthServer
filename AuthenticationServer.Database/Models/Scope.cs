@@ -8,4 +8,5 @@ public class Scope
     public string Description { get; set; } // menschlich lesbar
     public List<AuthorizationCodeScope> AuthorizationCodeScopes { get; set; }
     public List<AccessTokenScope> AccessTokenScopes { get; set; }
+    public List<ClientScope> ClientScopes { get; set; }
 }

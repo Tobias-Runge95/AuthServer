@@ -9,7 +9,6 @@ public class Client
     public string ClientSecretHash { get; set; }
     public List<string> RedirectUris { get; set; }
     public List<string> AllowedGrantTypes { get; set; }
-    public List<string> AllowedScopes { get; set; }
     public string JwksUri { get; set; }
     public string PublicKeyPem { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -18,4 +17,5 @@ public class Client
     public List<AuthorizationCode> AuthorizationCodes { get; set; }
     public List<AccessToken> AccessTokens { get; set; }
     public List<RefreshToken> RefreshTokens { get; set; }
+    public List<ClientScope> ClientScopes { get; set; }
 }
