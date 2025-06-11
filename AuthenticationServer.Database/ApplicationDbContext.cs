@@ -34,8 +34,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         builder.HasDefaultSchema("identity");
 
         builder.Entity<Client>().HasMany<Role>().WithOne(x => x.Client).HasForeignKey(x => x.AppId);
-        builder.Entity<UserClient>()
-            .HasKey(sc => new { sc.UserId, sc.AppId });
         
         builder.Entity<Client>()
             .HasKey(x => x.Id);
@@ -121,5 +119,14 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
             .WithMany(c => c.RefreshTokens)
             .HasForeignKey(u => u.SubjectId);
         
+        var clientSCope =  builder.Entity<ClientScope>();
+        clientSCope.HasKey(sc => new { sc.ClientId, sc.ScopeId });
+        clientSCope.HasOne(sc => sc.Client)
+            .WithMany(sc => sc.ClientScopes)
+            .HasForeignKey(sc => sc.ClientId);
+        
+        clientSCope.HasOne(sc => sc.Scope)
+            .WithMany(sc => sc.ClientScopes)
+            .HasForeignKey(sc => sc.ScopeId);
     }
 }
