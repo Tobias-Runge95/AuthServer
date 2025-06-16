@@ -1,4 +1,4 @@
-﻿namespace AuthenticationServer.Core.Responses.Auth;
+﻿namespace AuthenticationServer.Core.DTO.Auth;
 
 public class LoginResponse
 {
