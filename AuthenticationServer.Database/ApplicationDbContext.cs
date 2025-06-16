@@ -52,81 +52,95 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         userClient
             .HasOne(sc => sc.User)
             .WithMany(s => s.UserClients)
-            .HasForeignKey(sc => sc.UserId);
+            .HasForeignKey(sc => sc.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         userClient
             .HasOne(sc => sc.Client)
             .WithMany(c => c.UserClients)
-            .HasForeignKey(sc => sc.AppId);
+            .HasForeignKey(sc => sc.AppId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         var authorizationCode = builder.Entity<AuthorizationCode>();
         authorizationCode.HasKey(x => x.Id);
         authorizationCode
             .HasOne(c => c.Client)
             .WithMany(c => c.AuthorizationCodes)
-            .HasForeignKey(c => c.ClientId);
+            .HasForeignKey(c => c.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         authorizationCode
             .HasOne(u => u.Subject)
             .WithMany(c => c.AuthorizationCodes)
-            .HasForeignKey(c => c.SubjectId);
+            .HasForeignKey(c => c.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         var AuthorizationCodeScope = builder.Entity<AuthorizationCodeScope>();
         AuthorizationCodeScope.HasKey(x => new { x.AuthorizationCodeId, x.ScopeId });
         AuthorizationCodeScope
             .HasOne(ac => ac.AuthorizationCode)
             .WithMany(acs => acs.Scopes)
-            .HasForeignKey(ac => ac.AuthorizationCodeId);
+            .HasForeignKey(ac => ac.AuthorizationCodeId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         AuthorizationCodeScope
             .HasOne(ac => ac.Scope)
             .WithMany(acs => acs.AuthorizationCodeScopes)
-            .HasForeignKey(ac => ac.ScopeId);
+            .HasForeignKey(ac => ac.ScopeId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         var accessTokenScope = builder.Entity<AccessTokenScope>();
         accessTokenScope.HasKey(x => new { x.AccessTokenId, x.ScopeId });
         accessTokenScope
             .HasOne(ac => ac.AccessToken)
             .WithMany(acs => acs.Scopes)
-            .HasForeignKey(ac => ac.AccessTokenId);
+            .HasForeignKey(ac => ac.AccessTokenId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         accessTokenScope
             .HasOne(ac => ac.Scope)
             .WithMany(ats => ats.AccessTokenScopes)
-            .HasForeignKey(ac => ac.ScopeId);
+            .HasForeignKey(ac => ac.ScopeId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         var accessToken = builder.Entity<AccessToken>();
         accessToken.HasKey(x => x.Id);
         accessToken
             .HasOne(c => c.Client)
             .WithMany(c => c.AccessTokens)
-            .HasForeignKey(c => c.ClientId);
+            .HasForeignKey(c => c.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         accessToken
             .HasOne(c => c.Subject)
             .WithMany(c => c.AccessTokens)
-            .HasForeignKey(c => c.SubjectId);
+            .HasForeignKey(c => c.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         var refreshToken = builder.Entity<RefreshToken>();
         refreshToken.HasKey(x => x.Id);
         refreshToken
             .HasOne(t => t.Client)
             .WithMany(c => c.RefreshTokens)
-            .HasForeignKey(t => t.ClientId);
+            .HasForeignKey(t => t.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         refreshToken
             .HasOne(u => u.Subject)
             .WithMany(c => c.RefreshTokens)
-            .HasForeignKey(u => u.SubjectId);
+            .HasForeignKey(u => u.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         var clientSCope =  builder.Entity<ClientScope>();
         clientSCope.HasKey(sc => new { sc.ClientId, sc.ScopeId });
         clientSCope.HasOne(sc => sc.Client)
             .WithMany(sc => sc.ClientScopes)
-            .HasForeignKey(sc => sc.ClientId);
+            .HasForeignKey(sc => sc.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         clientSCope.HasOne(sc => sc.Scope)
             .WithMany(sc => sc.ClientScopes)
-            .HasForeignKey(sc => sc.ScopeId);
+            .HasForeignKey(sc => sc.ScopeId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
