@@ -35,9 +35,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
 
         builder.Entity<Client>().HasMany<Role>().WithOne(x => x.Client).HasForeignKey(x => x.AppId);
         
-        builder.Entity<Client>()
-            .HasKey(x => x.Id);
-        
         builder.Entity<Scope>()
             .HasKey(x => x.Id);
         
@@ -47,6 +44,15 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         builder.Entity<AccessToken>()
             .HasKey(x => x.Id);
 
+        
+        var client = builder.Entity<Client>();
+        client.HasKey(x => x.Id);
+        client
+            .HasOne(c => c.ContactUser)
+            .WithOne(u => u.ContactForClient)
+            .HasForeignKey<Client>(c => c.ContactUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         var userClient = builder.Entity<UserClient>();
         userClient.HasKey(sc => new { sc.UserId, sc.AppId });
         userClient

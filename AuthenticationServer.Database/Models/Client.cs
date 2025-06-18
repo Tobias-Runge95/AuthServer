@@ -11,6 +11,8 @@ public class Client
     public List<string> AllowedGrantTypes { get; set; }
     public string JwksUri { get; set; }
     public string PublicKeyPem { get; set; }
+    public Guid? ContactUserId { get; set; }
+    public User ContactUser { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsEnabled { get; set; }
     public ICollection<UserClient> UserClients { get; set; }
