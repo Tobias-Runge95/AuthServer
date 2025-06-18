@@ -14,6 +14,7 @@ public static class Startup
             .AddTransient<RoleManager>()
             .AddTransient<UserManager>()
             .AddTransient<IAuthManager, AuthManager>()
+            .AddScoped<IUserClientManager, UserClientManager>()
             .AddScoped<AuthenticationManager>()
             .AddTransient<ICryptographyClientFactory, CryptographyClientFactory>()
             .AddTransient<TokenService>();
