@@ -10,19 +10,27 @@ namespace AuthenticationServer.Core.Manager;
 
 public class UserManager : UserManager<User>
 {
+    // TODO: Update to use UnitOfWork and UserStore
     private readonly ApplicationDbContext _context;
     private readonly RoleManager _roleManager;
+    private readonly IUserClientManager _userClientManager;
     
-    public UserManager(IUserStore<User> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<User> passwordHasher, IEnumerable<IUserValidator<User>> userValidators, IEnumerable<IPasswordValidator<User>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<User>> logger, ApplicationDbContext context, RoleManager roleManager) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
+    public UserManager(IUserStore<User> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<User> passwordHasher, IEnumerable<IUserValidator<User>> userValidators, IEnumerable<IPasswordValidator<User>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<User>> logger, ApplicationDbContext context, RoleManager roleManager, IUserClientManager userClientManager) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
     {
         _context = context;
         _roleManager = roleManager;
+        _userClientManager = userClientManager;
     }
 
     public async Task<Guid> CreateAsync(CreateUser request)
     {
         var user = new User() { UserName = request.UserName, Email = request.Email, Id = Guid.NewGuid() };
         var result = await CreateAsync(user, request.Password);
+        
+        if (request.ClientId is not null)
+        {
+            await _userClientManager.CreateUserClientAsync(user.Id, request.ClientId.Value);
+        }
         
         // _context.UserRole.Add(new UserRole()
         // {
