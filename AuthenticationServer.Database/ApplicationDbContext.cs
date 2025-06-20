@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
     public DbSet<AuthorizationCode> AuthorizationCodes { get; set; }
     public DbSet<AuthorizationCodeScope> AuthorizationCodeScopes { get; set; }
     public DbSet<AccessTokenScope> AccessTokenScopes { get; set; }
+    public DbSet<ClientScope> ClientScopes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
