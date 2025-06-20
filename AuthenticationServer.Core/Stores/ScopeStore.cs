@@ -1,52 +1,58 @@
-﻿using AuthenticationServer.Database.Models;
+﻿using AuthenticationServer.Core.Manager;
+using AuthenticationServer.Database;
+using AuthenticationServer.Database.Models;
 
 namespace AuthenticationServer.Core.Stores;
 
-public interface IScopeStore
+public interface IScopeStore :  IBaseStore<Scope>
 {
-    Task AddOneAsync(Scope scope);
-    Task AddManyAsync(List<Scope> scopes);
-    Task RemoveOneAsync(Guid id);
-    Task RemoveManyAsync(List<Guid> ids);
-    Task UpdateOneAsync(Scope scope);
-    Task UpdateManyAsync(List<Scope> scopes);
+    // Task AddOneAsync(Scope scope);
+    // Task AddManyAsync(List<Scope> scopes);
+    // Task RemoveOneAsync(Guid id);
+    // Task RemoveManyAsync(List<Guid> ids);
+    // Task UpdateOneAsync(Scope scope);
+    // Task UpdateManyAsync(List<Scope> scopes);
     Task<Scope> GetOneAsync(Guid id);
     Task<List<Scope>> GetAllAsync();
     Task<List<Scope>> GetAllAsync(List<Guid> ids);
     Task<List<Scope>> GetAllAsync(List<string> names);
 }
 
-public class ScopeStore :  IScopeStore
+public class ScopeStore : BaseStore<Scope>, IScopeStore
 {
-    public Task AddOneAsync(Scope scope)
+    public ScopeStore(ApplicationDbContext db) : base(db)
     {
-        throw new NotImplementedException();
     }
 
-    public Task AddManyAsync(List<Scope> scopes)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RemoveOneAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task RemoveManyAsync(List<Guid> ids)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateOneAsync(Scope scope)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateManyAsync(List<Scope> scopes)
-    {
-        throw new NotImplementedException();
-    }
+    // public Task AddOneAsync(Scope scope)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task AddManyAsync(List<Scope> scopes)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task RemoveOneAsync(Guid id)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task RemoveManyAsync(List<Guid> ids)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task UpdateOneAsync(Scope scope)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // public Task UpdateManyAsync(List<Scope> scopes)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     public Task<Scope> GetOneAsync(Guid id)
     {
