@@ -33,8 +33,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         base.OnModelCreating(builder);
 
         builder.HasDefaultSchema("identity");
-
-        builder.Entity<Client>().HasMany<Role>().WithOne(x => x.Client).HasForeignKey(x => x.AppId);
         
         builder.Entity<Scope>()
             .HasKey(x => x.Id);
@@ -148,6 +146,28 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser<Guid>, Identi
         clientSCope.HasOne(sc => sc.Scope)
             .WithMany(sc => sc.ClientScopes)
             .HasForeignKey(sc => sc.ScopeId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        var userRole = builder.Entity<UserRole>();
+        userRole.HasOne<Role>()
+            .WithMany(x => x.UserRoles)
+            .HasForeignKey(x => x.RoleId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        userRole.HasOne(x => x.Client)
+            .WithMany(x => x.UserRoles)
+            .HasForeignKey(x => x.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        userRole.HasOne<User>()
+            .WithMany(x => x.UserRoles)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        var userClaim = builder.Entity<UserClaim>();
+        userClaim.HasOne<Client>()
+            .WithMany(x => x.UserClaims)
+            .HasForeignKey(x => x.ClientId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

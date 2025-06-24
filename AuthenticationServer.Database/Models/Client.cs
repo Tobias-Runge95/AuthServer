@@ -20,4 +20,6 @@ public class Client
     public List<AccessToken> AccessTokens { get; set; }
     public List<RefreshToken> RefreshTokens { get; set; }
     public List<ClientScope> ClientScopes { get; set; }
+    public List<UserRole> UserRoles { get; set; }
+    public List<UserClaim> UserClaims { get; set; }
 }

@@ -12,4 +12,5 @@ public class User : IdentityUser<Guid>
     public List<AuthorizationCode> AuthorizationCodes { get; set; }
     public List<AccessToken> AccessTokens { get; set; }
     public List<RefreshToken> RefreshTokens { get; set; }
+    public List<UserRole> UserRoles { get; set; }
 }
