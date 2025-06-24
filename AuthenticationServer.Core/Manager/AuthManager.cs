@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
+using AuthenticationServer.Core.DTO.Auth;
 using AuthenticationServer.Core.KeyVault;
 using AuthenticationServer.Core.Request.Authentication;
-using AuthenticationServer.Core.Responses.Auth;
 using AuthenticationServer.Database;
 using AuthenticationServer.Database.Models;
 using Microsoft.EntityFrameworkCore;
