@@ -9,6 +9,10 @@ public interface IUnitOfWork
     IClientScopeStore ClientScopes { get; }
     IScopeStore Scopes { get; }
     IRefreshTokenStore RefreshTokens { get; }
+    IUserClientStore UserClients { get; }
+    IApplicationUserStore Users { get; }
+    IUserRoleStore UserRoles { get; }
+    IRoleStore Roles { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
 
@@ -20,7 +24,10 @@ public class UnitOfWork : IUnitOfWork
     private IClientScopeStore _clientScopeStore;
     private IAccessTokenStore _accessTokenStore;
     private IRefreshTokenStore _refreshTokenStore;
-
+    private IUserClientStore  _userClientStore;
+    private IApplicationUserStore  _applicationUserStore;
+    private IUserRoleStore  _userRoleStore;
+    private IRoleStore    _roleStore;
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
@@ -36,6 +43,19 @@ public class UnitOfWork : IUnitOfWork
             }
             
             return _clientStore;
+        }
+    }
+
+    public IApplicationUserStore Users
+    {
+        get
+        {
+            if (_applicationUserStore is null)
+            {
+                _applicationUserStore = new ApplicationUserStore(_context);
+            }
+            
+            return _applicationUserStore;
         }
     }
 
@@ -88,8 +108,45 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public IUserClientStore UserClients
     {
-        throw new NotImplementedException();
+        get
+        {
+            if (_userClientStore is null)
+            {
+                _userClientStore =  new UserClientStore(_context);
+            }
+            
+            return _userClientStore;
+        }
+    }
+
+    public IUserRoleStore UserRoles
+    {
+        get
+        {
+            if (_userRoleStore is null)
+            {
+                _userRoleStore =  new UserRoleStore(_context);
+            }
+            return _userRoleStore;
+        }
+    }
+
+    public IRoleStore Roles
+    {
+        get
+        {
+            if (_roleStore is null)
+            {
+                _roleStore =  new RoleStore(_context);
+            }
+            return _roleStore;
+        }
+    }
+
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.SaveChangesAsync(cancellationToken);
     }
 }
