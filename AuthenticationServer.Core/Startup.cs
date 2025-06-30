@@ -30,6 +30,10 @@ public static class Startup
             .AddScoped<IClientScopeStore, ClientScopeStore>()
             .AddScoped<IClientStore, ClientStore>()
             .AddScoped<IRefreshTokenStore, RefreshTokenStore>()
-            .AddScoped<IScopeStore, ScopeStore>();
+            .AddScoped<IScopeStore, ScopeStore>()
+            .AddScoped<IRoleStore, RoleStore>()
+            .AddScoped<IUserRoleStore, UserRoleStore>()
+            .AddScoped<IUserClientStore, UserClientStore>()
+            .AddScoped<IApplicationUserStore, ApplicationUserStore>();
     }
 }
