@@ -6,13 +6,8 @@ namespace AuthenticationServer.Core.Stores;
 
 public interface IScopeStore :  IBaseStore<Scope>
 {
-    // Task AddOneAsync(Scope scope);
-    // Task AddManyAsync(List<Scope> scopes);
-    // Task RemoveOneAsync(Guid id);
-    // Task RemoveManyAsync(List<Guid> ids);
-    // Task UpdateOneAsync(Scope scope);
-    // Task UpdateManyAsync(List<Scope> scopes);
-    Task<Scope> GetOneAsync(Guid id);
+    Task<Scope> GetAsync(Guid id);
+    Task<Scope>  GetAsync(string name);
     Task<List<Scope>> GetAllAsync();
     Task<List<Scope>> GetAllAsync(List<Guid> ids);
     Task<List<Scope>> GetAllAsync(List<string> names);
@@ -24,37 +19,12 @@ public class ScopeStore : BaseStore<Scope>, IScopeStore
     {
     }
 
-    // public Task AddOneAsync(Scope scope)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task AddManyAsync(List<Scope> scopes)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task RemoveOneAsync(Guid id)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task RemoveManyAsync(List<Guid> ids)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task UpdateOneAsync(Scope scope)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task UpdateManyAsync(List<Scope> scopes)
-    // {
-    //     throw new NotImplementedException();
-    // }
+    public Task<Scope> GetAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 
-    public Task<Scope> GetOneAsync(Guid id)
+    public Task<Scope> GetAsync(string name)
     {
         throw new NotImplementedException();
     }
