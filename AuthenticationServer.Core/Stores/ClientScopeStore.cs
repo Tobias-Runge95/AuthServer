@@ -6,7 +6,7 @@ using AuthenticationServer.Database.Models;
 
 public interface IClientScopeStore :  IBaseStore<ClientScope>
 {
-    Task<ClientScope> GetAsync(Guid id);
+    Task<ClientScope> GetAsync(Guid clientId, Guid scopeId);
     Task<List<ClientScope>> GetAllAsync();
     Task<List<ClientScope>> GetAllByClientId(Guid clientId);
 }
@@ -17,7 +17,7 @@ public class ClientScopeStore : BaseStore<ClientScope>, IClientScopeStore
     {
     }
 
-    public Task<ClientScope> GetAsync(Guid id)
+    public Task<ClientScope> GetAsync(Guid id, Guid scopeId)
     {
         throw new NotImplementedException();
     }
