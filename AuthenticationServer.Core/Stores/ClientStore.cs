@@ -22,42 +22,6 @@ public class ClientStore : BaseStore<Client>, IClientStore
     {
     }
 
-    // public async Task AddAsync(Client client)
-    // {
-    //     await _db.Clients.AddAsync(client);
-    //     await _db.SaveChangesAsync();
-    // }
-    //
-    // public async Task AddManyAsync(List<Client> clients)
-    // {
-    //     await _db.Clients.AddRangeAsync(clients);
-    //     await _db.SaveChangesAsync();
-    // }
-    //
-    // public async Task RemoveAsync(Client client)
-    // {
-    //     _db.Clients.Remove(client);
-    //     await _db.SaveChangesAsync();
-    // }
-    //
-    // public async Task RemoveManyAsync(List<Client> clients)
-    // {
-    //     _db.Clients.RemoveRange(clients);
-    //     await _db.SaveChangesAsync();
-    // }
-    //
-    // public async Task UpdateAsync(Client client)
-    // {
-    //     _db.Clients.Update(client);
-    //     await _db.SaveChangesAsync();
-    // }
-    //
-    // public async Task UpdateManyAsync(List<Client> clients)
-    // {
-    //     _db.Clients.UpdateRange(clients);
-    //     await _db.SaveChangesAsync();
-    // }
-
     public async Task<Client> GetAsync(Guid id)
     {
         return await _db.Clients
